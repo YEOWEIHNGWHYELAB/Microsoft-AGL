@@ -71,7 +71,7 @@ namespace DrawingFromGeometryWithGtk
             }
 
             graph.Edges.Add(new Edge(graph.FindNodeByUserData("Start\n_____________________\nSave as Draft\nCommit"), graph.FindNodeByUserData("Draft\n_____________________\nSubmit for Approval\nCommit")));
-            graph.Edges.Add(new Edge(graph.FindNodeByUserData("Pending Approval\\n_____________________\\nReject\\nQuery\""), graph.FindNodeByUserData("Draft\n_____________________\nSubmit for Approval\nCommit")));
+            graph.Edges.Add(new Edge(graph.FindNodeByUserData("Query\n_____________________\nSubmit for Approval\nCancel"), graph.FindNodeByUserData("Draft\n_____________________\nSubmit for Approval\nCommit")));
 
             var settings = new SugiyamaLayoutSettings {
                 Transformation = PlaneTransformation.Rotation(Math.PI/2),
