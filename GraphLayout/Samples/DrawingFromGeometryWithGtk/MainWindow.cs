@@ -15,7 +15,7 @@ namespace DrawingFromGeometryWithGtk
 {
     class MainWindow : Window
     {
-        [UI] private DrawingArea drawingArea = null;
+        [UI] private DrawingArea drawingArea;
         private GeometryGraph graph;
         private double width, height;
 
@@ -52,38 +52,26 @@ namespace DrawingFromGeometryWithGtk
         static internal GeometryGraph CreateAndLayoutGraph() {
             GeometryGraph graph = new GeometryGraph();
 
-            double width = 40;
-            double height = 10;
+            double width = 140;
+            double height = 20;
 
-            foreach (string id in "0 1 2 3 4 5 6 A B C D E F G a b c d e".Split(' '))
+            string[] nodeArr = new string[] {
+                "Start\n_____________________\nSave as Draft\nCommit",
+                "Draft\n_____________________\nSubmit for Approval\nCommit",
+                "Pending Approval\n_____________________\nReject\nQuery",
+                "Query\n_____________________\nSubmit for Approval\nCancel",
+                "Committed\n_____________________\nReverse"
+            };
+
+            foreach (string currStr in nodeArr)
             {
-                DrawingUtilsForSamples.AddNode(id, graph, width, height);
+                int numLine = currStr.Split("\n").Length;
+
+                DrawingUtilsForSamples.AddNode(currStr, graph, width, height * numLine);
             }
 
-            graph.Edges.Add(new Edge(graph.FindNodeByUserData("A"), graph.FindNodeByUserData("B")));
-            graph.Edges.Add(new Edge(graph.FindNodeByUserData("A"), graph.FindNodeByUserData("C")));
-            graph.Edges.Add(new Edge(graph.FindNodeByUserData("A"), graph.FindNodeByUserData("D")));
-            graph.Edges.Add(new Edge(graph.FindNodeByUserData("D"), graph.FindNodeByUserData("E")));
-            graph.Edges.Add(new Edge(graph.FindNodeByUserData("B"), graph.FindNodeByUserData("E")));
-            graph.Edges.Add(new Edge(graph.FindNodeByUserData("D"), graph.FindNodeByUserData("F")));
-            graph.Edges.Add(new Edge(graph.FindNodeByUserData("0"), graph.FindNodeByUserData("F")));
-            graph.Edges.Add(new Edge(graph.FindNodeByUserData("1"), graph.FindNodeByUserData("F")));
-            graph.Edges.Add(new Edge(graph.FindNodeByUserData("2"), graph.FindNodeByUserData("F")));
-            graph.Edges.Add(new Edge(graph.FindNodeByUserData("3"), graph.FindNodeByUserData("F")));
-            graph.Edges.Add(new Edge(graph.FindNodeByUserData("4"), graph.FindNodeByUserData("F")));
-            graph.Edges.Add(new Edge(graph.FindNodeByUserData("5"), graph.FindNodeByUserData("F")));
-            graph.Edges.Add(new Edge(graph.FindNodeByUserData("6"), graph.FindNodeByUserData("F")));
-            graph.Edges.Add(new Edge(graph.FindNodeByUserData("a"), graph.FindNodeByUserData("b")));
-            graph.Edges.Add(new Edge(graph.FindNodeByUserData("b"), graph.FindNodeByUserData("c")));
-            graph.Edges.Add(new Edge(graph.FindNodeByUserData("c"), graph.FindNodeByUserData("d")));
-            graph.Edges.Add(new Edge(graph.FindNodeByUserData("d"), graph.FindNodeByUserData("e")));
-            graph.Edges.Add(new Edge(graph.FindNodeByUserData("A"), graph.FindNodeByUserData("a")));
-            graph.Edges.Add(new Edge(graph.FindNodeByUserData("B"), graph.FindNodeByUserData("a")));
-            graph.Edges.Add(new Edge(graph.FindNodeByUserData("C"), graph.FindNodeByUserData("a")));
-            graph.Edges.Add(new Edge(graph.FindNodeByUserData("D"), graph.FindNodeByUserData("a")));
-            graph.Edges.Add(new Edge(graph.FindNodeByUserData("E"), graph.FindNodeByUserData("a")));
-            graph.Edges.Add(new Edge(graph.FindNodeByUserData("F"), graph.FindNodeByUserData("a")));
-            graph.Edges.Add(new Edge(graph.FindNodeByUserData("G"), graph.FindNodeByUserData("a")));
+            graph.Edges.Add(new Edge(graph.FindNodeByUserData("Start\n_____________________\nSave as Draft\nCommit"), graph.FindNodeByUserData("Draft\n_____________________\nSubmit for Approval\nCommit")));
+            graph.Edges.Add(new Edge(graph.FindNodeByUserData("Pending Approval\\n_____________________\\nReject\\nQuery\""), graph.FindNodeByUserData("Draft\n_____________________\nSubmit for Approval\nCommit")));
 
             var settings = new SugiyamaLayoutSettings {
                 Transformation = PlaneTransformation.Rotation(Math.PI/2),
