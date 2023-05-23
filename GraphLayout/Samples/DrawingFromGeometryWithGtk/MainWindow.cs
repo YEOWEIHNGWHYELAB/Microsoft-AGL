@@ -60,7 +60,10 @@ namespace DrawingFromGeometryWithGtk
                 "Draft\n_____________________\nSubmit for Approval\nCommit",
                 "Pending Approval\n_____________________\nReject\nQuery",
                 "Query\n_____________________\nSubmit for Approval\nCancel",
-                "Committed\n_____________________\nReverse"
+                "Committed\n_____________________\nReverse",
+                "Rejected\n_____________________\nNo actions required",
+                "Cancelled\n_____________________\nNo actions required",
+                "Reversed\n_____________________\nNo actions required"
             };
 
             foreach (string currStr in nodeArr)
@@ -71,7 +74,17 @@ namespace DrawingFromGeometryWithGtk
             }
 
             graph.Edges.Add(new Edge(graph.FindNodeByUserData("Start\n_____________________\nSave as Draft\nCommit"), graph.FindNodeByUserData("Draft\n_____________________\nSubmit for Approval\nCommit")));
-            graph.Edges.Add(new Edge(graph.FindNodeByUserData("Query\n_____________________\nSubmit for Approval\nCancel"), graph.FindNodeByUserData("Draft\n_____________________\nSubmit for Approval\nCommit")));
+            graph.Edges.Add(new Edge(graph.FindNodeByUserData("Start\n_____________________\nSave as Draft\nCommit"), graph.FindNodeByUserData("Pending Approval\n_____________________\nReject\nQuery")));
+
+            graph.Edges.Add(new Edge(graph.FindNodeByUserData("Draft\n_____________________\nSubmit for Approval\nCommit"), graph.FindNodeByUserData("Pending Approval\n_____________________\nReject\nQuery")));
+
+            graph.Edges.Add(new Edge(graph.FindNodeByUserData("Query\n_____________________\nSubmit for Approval\nCancel"), graph.FindNodeByUserData("Cancelled\n_____________________\nNo actions required")));
+            graph.Edges.Add(new Edge(graph.FindNodeByUserData("Query\n_____________________\nSubmit for Approval\nCancel"), graph.FindNodeByUserData("Pending Approval\n_____________________\nReject\nQuery")));
+            graph.Edges.Add(new Edge(graph.FindNodeByUserData("Pending Approval\n_____________________\nReject\nQuery"), graph.FindNodeByUserData("Pending Approval\n_____________________\nReject\nQuery")));
+            graph.Edges.Add(new Edge(graph.FindNodeByUserData("Pending Approval\n_____________________\nReject\nQuery"), graph.FindNodeByUserData("Rejected\n_____________________\nNo actions required")));
+            graph.Edges.Add(new Edge(graph.FindNodeByUserData("Query\n_____________________\nSubmit for Approval\nCancel"), graph.FindNodeByUserData("Rejected\n_____________________\nNo actions required")));
+
+            graph.Edges.Add(new Edge(graph.FindNodeByUserData("Committed\n_____________________\nReverse"), graph.FindNodeByUserData("Reversed\n_____________________\nNo actions required")));
 
             var settings = new SugiyamaLayoutSettings {
                 Transformation = PlaneTransformation.Rotation(Math.PI/2),
