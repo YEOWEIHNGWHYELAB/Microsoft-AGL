@@ -146,18 +146,28 @@ namespace FastIncrementalLayoutWithGdi {
         static Graph CtreateDrawingGraph(out FastIncrementalLayoutSettings settings) {
             settings = new FastIncrementalLayoutSettings { RouteEdges = true, NodeSeparation = 30};
             var drawingGraph = new Graph();
-            AddEdge(drawingGraph, "0", "1");
-            AddEdge(drawingGraph, "0", "2");
-            AddEdge(drawingGraph, "1", "3");
-            AddEdge(drawingGraph, "2", "4");
-            AddEdge(drawingGraph, "2", "5");
-            AddEdge(drawingGraph, "2", "6");
-            AddEdge(drawingGraph, "5", "7");
-            AddEdge(drawingGraph, "5", "6");
-            AddEdge(drawingGraph, "7", "8");
-            AddEdge(drawingGraph, "8", "6");
+            //AddEdge(drawingGraph, "0", "1");
+            //AddEdge(drawingGraph, "0", "2");
+            //AddEdge(drawingGraph, "1", "3");
+            //AddEdge(drawingGraph, "2", "4");
+            //AddEdge(drawingGraph, "2", "5");
+            //AddEdge(drawingGraph, "2", "6");
+            //AddEdge(drawingGraph, "5", "7");
+            //AddEdge(drawingGraph, "5", "6");
+            //AddEdge(drawingGraph, "7", "8");
+            //AddEdge(drawingGraph, "8", "6");
 
-       
+            AddEdge(drawingGraph, "Start\\n_____________________\\nSave as Draft\\nCommit", "Draft\n_____________________\nSubmit for Approval\nCommit");
+            AddEdge(drawingGraph, "Start\n_____________________\nSave as Draft\nCommit", "Pending Approval\n_____________________\nReject\nQuery");
+            AddEdge(drawingGraph, "Draft\n_____________________\nSubmit for Approval\nCommit", "Pending Approval\n_____________________\nReject\nQuery");
+            AddEdge(drawingGraph, "Query\n_____________________\nSubmit for Approval\nCancel", "Cancelled\n_____________________\nNo actions required");
+            AddEdge(drawingGraph, "Query\n_____________________\nSubmit for Approval\nCancel", "Pending Approval\n_____________________\nReject\nQuery");
+            AddEdge(drawingGraph, "Pending Approval\n_____________________\nReject\nQuery", "Pending Approval\n_____________________\nReject\nQuery");
+            AddEdge(drawingGraph, "Pending Approval\n_____________________\nReject\nQuery", "Rejected\n_____________________\nNo actions required");
+            AddEdge(drawingGraph, "Query\n_____________________\nSubmit for Approval\nCancel", "Rejected\n_____________________\nNo actions required");
+            AddEdge(drawingGraph, "Committed\n_____________________\nReverse", "Reversed\n_____________________\nNo actions required");
+
+
             drawingGraph.CreateGeometryGraph();
             foreach (DrawingNode node in drawingGraph.Nodes) {
                 double w, h;
