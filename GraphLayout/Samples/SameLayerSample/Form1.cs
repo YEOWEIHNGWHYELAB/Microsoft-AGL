@@ -33,14 +33,34 @@ namespace SameLayerSample
             //graph.AddEdge("A", "D");
 
             //graph.LayerConstraints.PinNodesToSameLayer(new[] { 
-            //    graph.FindNode("Start\n_____________________\nSave as Draft\nCommit"), 
-            //    graph.FindNode("Draft\n_____________________\nSubmit for Approval\nCommit"), 
-            //    graph.FindNode("Pending Approval\n_____________________\nReject\nQuery") });
+            //    graph.FindNode("Start\n_____________________\nSave as Draft\nCommit")
+            //});
+
+            //graph.LayerConstraints.PinNodesToSameLayer(new[] {
+            //    graph.FindNode("Draft\n_____________________\nSubmit for Approval\nCommit")
+            //});
+
+            //graph.LayerConstraints.PinNodesToSameLayer(new[] {
+            //    graph.FindNode("Pending Approval\n_____________________\nReject\nQuery")
+            //});
+
+
+            graph.LayerConstraints.PinNodesToSameLayer(new[] {
+                graph.FindNode("Reversed\n_____________________\nNo actions required"),
+                graph.FindNode("Cancelled\n_____________________\nNo actions required")
+            });
+
+            graph.LayerConstraints.PinNodesToMinLayer(new[] {
+                graph.FindNode("Rejected\n_____________________\nNo actions required"),
+                graph.FindNode("Query\n_____________________\nSubmit for Approval\nCancel"),
+                graph.FindNode("Committed\n_____________________\nReverse")
+            });
 
             //graph.LayerConstraints.AddSameLayerNeighbors(
-            //    graph.FindNode("Start\n_____________________\nSave as Draft\nCommit"), 
-            //    graph.FindNode("Draft\n_____________________\nSubmit for Approval\nCommit"), 
-            //    graph.FindNode("Pending Approval\n_____________________\nReject\nQuery"));
+            //    graph.FindNode("Start\n_____________________\nSave as Draft\nCommit"),
+            //    graph.FindNode("Query\n_____________________\nSubmit for Approval\nCancel"),
+            //    graph.FindNode("Committed\n_____________________\nReverse")
+            //);
 
             gViewer.Graph = graph;
 
