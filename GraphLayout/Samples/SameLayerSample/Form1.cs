@@ -16,7 +16,7 @@ namespace SameLayerSample
             ResumeLayout();
             Graph graph = new Graph();
             var sugiyamaSettings = (SugiyamaLayoutSettings)graph.LayoutAlgorithmSettings;
-            sugiyamaSettings.NodeSeparation *= 2;
+            sugiyamaSettings.NodeSeparation *= 4;
 
             graph.AddEdge("Start\n_____________________\nSave as Draft\nCommit", "Draft\n_____________________\nSubmit for Approval\nCommit");
             graph.AddEdge("Start\n_____________________\nSave as Draft\nCommit", "Pending Approval\n_____________________\nReject\nQuery");
@@ -32,17 +32,17 @@ namespace SameLayerSample
             //graph.AddEdge("A", "C");
             //graph.AddEdge("A", "D");
 
-            //graph.LayerConstraints.PinNodesToSameLayer(new[] { 
-            //    graph.FindNode("Start\n_____________________\nSave as Draft\nCommit")
-            //});
+            graph.LayerConstraints.PinNodesToSameLayer(new[] { 
+                graph.FindNode("Start\n_____________________\nSave as Draft\nCommit")
+            });
 
-            //graph.LayerConstraints.PinNodesToSameLayer(new[] {
-            //    graph.FindNode("Draft\n_____________________\nSubmit for Approval\nCommit")
-            //});
+            graph.LayerConstraints.PinNodesToSameLayer(new[] {
+                graph.FindNode("Draft\n_____________________\nSubmit for Approval\nCommit")
+            });
 
-            //graph.LayerConstraints.PinNodesToSameLayer(new[] {
-            //    graph.FindNode("Pending Approval\n_____________________\nReject\nQuery")
-            //});
+            graph.LayerConstraints.PinNodesToSameLayer(new[] {
+                graph.FindNode("Pending Approval\n_____________________\nReject\nQuery")
+            });
 
 
             graph.LayerConstraints.PinNodesToSameLayer(new[] {
@@ -50,7 +50,7 @@ namespace SameLayerSample
                 graph.FindNode("Cancelled\n_____________________\nNo actions required")
             });
 
-            graph.LayerConstraints.PinNodesToMinLayer(new[] {
+            graph.LayerConstraints.PinNodesToSameLayer(new[] {
                 graph.FindNode("Rejected\n_____________________\nNo actions required"),
                 graph.FindNode("Query\n_____________________\nSubmit for Approval\nCancel"),
                 graph.FindNode("Committed\n_____________________\nReverse")
