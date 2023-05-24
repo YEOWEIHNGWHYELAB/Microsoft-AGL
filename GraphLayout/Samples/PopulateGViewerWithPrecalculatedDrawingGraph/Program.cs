@@ -27,12 +27,34 @@ namespace PopulateGViwerWithPrecalculatedDrawingGraph
             var form = TestFormForGViewer.FormStuff.CreateOrAttachForm(gviewer, null);
             gviewer.NeedToCalculateLayout = false;
             var drawingGraph = new Microsoft.Msagl.Drawing.Graph();
-            var a = drawingGraph.AddNode("a");
-            var b = drawingGraph.AddNode("b");
-            drawingGraph.AddEdge("a", "b");
+            var a = drawingGraph.AddNode("Start\n_____________________\nSave as Draft\nCommit");
+            var b = drawingGraph.AddNode("Draft\n_____________________\nSubmit for Approval\nCommit");
+            var c = drawingGraph.AddNode("Query\n_____________________\nSubmit for Approval\nCancel");
+            var d = drawingGraph.AddNode("Committed\n_____________________\nReverse");
+            var e = drawingGraph.AddNode("Rejected\n_____________________\nNo actions required");
+            var f = drawingGraph.AddNode("Cancelled\n_____________________\nNo actions required");
+            var g = drawingGraph.AddNode("Reversed\n_____________________\nNo actions required");
+            var h = drawingGraph.AddNode("Pending Approval\n_____________________\nReject\nQuery");
+
+            drawingGraph.AddEdge("Start\n_____________________\nSave as Draft\nCommit", "Draft\n_____________________\nSubmit for Approval\nCommit");
+            drawingGraph.AddEdge("Start\n_____________________\nSave as Draft\nCommit", "Pending Approval\n_____________________\nReject\nQuery");
+            drawingGraph.AddEdge("Draft\n_____________________\nSubmit for Approval\nCommit", "Pending Approval\n_____________________\nReject\nQuery");
+            drawingGraph.AddEdge("Query\n_____________________\nSubmit for Approval\nCancel", "Cancelled\n_____________________\nNo actions required");
+            drawingGraph.AddEdge("Query\n_____________________\nSubmit for Approval\nCancel", "Pending Approval\n_____________________\nReject\nQuery");
+            drawingGraph.AddEdge("Pending Approval\n_____________________\nReject\nQuery", "Pending Approval\n_____________________\nReject\nQuery");
+            drawingGraph.AddEdge("Pending Approval\n_____________________\nReject\nQuery", "Rejected\n_____________________\nNo actions required");
+            drawingGraph.AddEdge("Query\n_____________________\nSubmit for Approval\nCancel", "Rejected\n_____________________\nNo actions required");
+            drawingGraph.AddEdge("Committed\n_____________________\nReverse", "Reversed\n_____________________\nNo actions required");
+
             var geometryGraph = drawingGraph.CreateGeometryGraph();
             SetNodeBoundary(a);
             SetNodeBoundary(b);
+            SetNodeBoundary(c);
+            SetNodeBoundary(d);
+            SetNodeBoundary(e);
+            SetNodeBoundary(f);
+            SetNodeBoundary(g);
+            SetNodeBoundary(h);
 
             // leave node "a" at (0, 0), but move "b" to a new spot
             b.GeometryNode.Center = new Point(50, 50);
